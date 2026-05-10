@@ -44,10 +44,11 @@ jobs:
             libtool
             pkgconf
             make
-            mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-make
+            mingw-w64-ucrt-x86_64-pkgconf
             mingw-w64-ucrt-x86_64-fftw
-            mingw-w64-ucrt-x86_64-librtlsdr
+            mingw-w64-ucrt-x86_64-rtl-sdr
             mingw-w64-ucrt-x86_64-libusb
 
       - name: Show build environment
@@ -82,14 +83,14 @@ jobs:
           cp src/kal.exe dist/
 
           # Runtime DLLs
-          cp /ucrt64/bin/librtlsdr.dll dist/
-          cp /ucrt64/bin/libusb-1.0.dll dist/
-          cp /ucrt64/bin/libfftw3f-3.dll dist/
+          cp /ucrt64/bin/*rtlsdr*.dll dist/ || true
+          cp /ucrt64/bin/libusb-1.0.dll dist/ || true
+          cp /ucrt64/bin/libfftw3f-3.dll dist/ || true
 
           # GCC runtime DLLs
-          cp /ucrt64/bin/libgcc_s_seh-1.dll dist/
-          cp /ucrt64/bin/libstdc++-6.dll dist/
-          cp /ucrt64/bin/libwinpthread-1.dll dist/
+          cp /ucrt64/bin/libgcc_s_seh-1.dll dist/ || true
+          cp /ucrt64/bin/libstdc++-6.dll dist/ || true
+          cp /ucrt64/bin/libwinpthread-1.dll dist/ || true
 
       - name: Create README
         run: |
