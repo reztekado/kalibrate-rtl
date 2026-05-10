@@ -63,6 +63,11 @@ jobs:
           chmod +x bootstrap || true
           ./bootstrap
 
+      - name: Remove unsupported -lrt linkage
+        run: |
+          find . -type f \( -name "Makefile.am" -o -name "Makefile.in" -o -name "configure.ac" -o -name "configure" \) \
+            -exec sed -i 's/-lrt//g' {} +
+
       - name: Configure
         run: |
           ./configure \
