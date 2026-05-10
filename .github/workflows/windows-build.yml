@@ -38,6 +38,7 @@ jobs:
           install: >-
             git
             zip
+            unzip
             base-devel
             autoconf
             automake
@@ -81,16 +82,24 @@ jobs:
         run: |
           strip src/kal.exe || true
 
+      - name: Verify runtime dependencies
+        run: |
+          ldd src/kal.exe || true
+
       - name: Prepare distribution
         run: |
           mkdir -p dist
 
           cp src/kal.exe dist/
 
-          # Runtime DLLs
+          # RTL-SDR runtime DLLs
           cp /ucrt64/bin/*rtlsdr*.dll dist/ || true
+
+          # FFTW runtime DLLs
+          cp /ucrt64/bin/libfftw3*.dll dist/ || true
+
+          # libusb
           cp /ucrt64/bin/libusb-1.0.dll dist/ || true
-          cp /ucrt64/bin/libfftw3f-3.dll dist/ || true
 
           # GCC runtime DLLs
           cp /ucrt64/bin/libgcc_s_seh-1.dll dist/ || true
